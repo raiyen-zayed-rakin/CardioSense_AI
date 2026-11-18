@@ -1,0 +1,289 @@
+{
+  "model_version": "cardiosense-beat-resnet-tpl-20261117",
+  "architecture": "ResNet1D, 2-channel input (beat, beat minus patient template) + 7 RR features; 3-seed ensemble, SWA weights, softmax-averaged",
+  "files": {
+    "torchscript": "beat_model_ts.pt",
+    "state_dict": "beat_model.pth",
+    "onnx": "beat_model.onnx"
+  },
+  "model_class": "cardiosense_beats.ResNet1D(use_rr=True, in_ch=2, w=32), wrapped in cardiosense_beats.BeatEnsemble",
+  "ensemble_size": 3,
+  "classes": [
+    "N",
+    "S",
+    "V",
+    "F"
+  ],
+  "fs": 250,
+  "pre": 90,
+  "post": 160,
+  "margin": 8,
+  "window_len": 250,
+  "bandpass_hz": [
+    0.5,
+    40.0
+  ],
+  "filter_order": 3,
+  "template_prev_beats": 20,
+  "rr_features": [
+    "pre_rr",
+    "post_rr",
+    "local10_rr",
+    "pre/local10",
+    "post/local10",
+    "pre/post",
+    "pre/local100"
+  ],
+  "rr_transform": "log(clip(x, 0.01, 10)), RR in seconds, causal local means",
+  "inputs": {
+    "beat": "(B, 2, 250) float32",
+    "rr": "(B, 7) float32"
+  },
+  "output": "(B, 4) class probabilities",
+  "unknown_threshold": 0.5,
+  "class_bias": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "latency_note": "post_rr needs the next beat, so each label is available ~1 beat after the R-peak",
+  "training": {
+    "deployment_data": "MIT-BIH 44 non-paced records + INCART 75 records",
+    "augmentation": "R-peak jitter +-32 ms, NSTDB em/ma/bw noise at 6-30 dB SNR",
+    "cfg": {
+      "epochs": 15,
+      "batch": 512,
+      "lr": 0.001,
+      "wd": 0.001,
+      "cw_power": 0.5,
+      "label_smoothing": 0.05,
+      "swa_epochs": 5
+    },
+    "seeds": [
+      42,
+      43,
+      44
+    ]
+  },
+  "evaluation_note": "Reported metrics come from models trained on DS1 only (patient-wise); the deployment ensemble is retrained on all data and has no held-out test of its own.",
+  "evaluation": {
+    "cv_ds1_5fold": {
+      "acc": 0.9197740334634472,
+      "macroF1": 0.5596009995741514,
+      "N_Se": 0.9403307443930535,
+      "N_+P": 0.981643018197554,
+      "S_Se": 0.40402969247083775,
+      "S_+P": 0.30286168521462636,
+      "V_Se": 0.8727560718057022,
+      "V_+P": 0.6404494382022472,
+      "F_Se": 0.24879227053140096,
+      "F_+P": 0.15749235474006115
+    },
+    "ds2_mean_3_seeds": {
+      "acc_mean": 0.921,
+      "acc_std": 0.002,
+      "macroF1_mean": 0.535,
+      "macroF1_std": 0.007,
+      "N_Se_mean": 0.958,
+      "N_Se_std": 0.003,
+      "N_+P_mean": 0.971,
+      "N_+P_std": 0.007,
+      "S_Se_mean": 0.194,
+      "S_Se_std": 0.028,
+      "S_+P_mean": 0.238,
+      "S_+P_std": 0.015,
+      "V_Se_mean": 0.92,
+      "V_Se_std": 0.016,
+      "V_+P_mean": 0.751,
+      "V_+P_std": 0.076,
+      "F_Se_mean": 0.162,
+      "F_Se_std": 0.032,
+      "F_+P_mean": 0.119,
+      "F_+P_std": 0.013
+    },
+    "incart_mean_3_seeds": {
+      "acc_mean": 0.938,
+      "acc_std": 0.012,
+      "macroF1_mean": 0.601,
+      "macroF1_std": 0.012,
+      "N_Se_mean": 0.945,
+      "N_Se_std": 0.015,
+      "N_+P_mean": 0.994,
+      "N_+P_std": 0.002,
+      "S_Se_mean": 0.901,
+      "S_Se_std": 0.012,
+      "S_+P_mean": 0.366,
+      "S_+P_std": 0.011,
+      "V_Se_mean": 0.893,
+      "V_Se_std": 0.014,
+      "V_+P_mean": 0.833,
+      "V_+P_std": 0.105,
+      "F_Se_mean": 0.438,
+      "F_Se_std": 0.008,
+      "F_+P_mean": 0.03,
+      "F_+P_std": 0.006
+    },
+    "beatwise_70_30": {
+      "acc": 0.9930127823034638,
+      "macroF1": 0.9356717235092761,
+      "N_Se": 0.9949298693608675,
+      "N_+P": 0.9986998031130428,
+      "N_F1": 0.9968112717834631,
+      "S_Se": 0.9748201438848921,
+      "S_+P": 0.9377162629757786,
+      "S_F1": 0.9559082892416226,
+      "V_Se": 0.9819219790675547,
+      "V_+P": 0.9866156787762906,
+      "V_F1": 0.9842632331902718,
+      "F_Se": 0.9377593360995851,
+      "F_+P": 0.70625,
+      "F_F1": 0.805704099821747
+    },
+    "stress_tests_ds2": [
+      {
+        "model": "annotated R-peaks (reference)",
+        "det_Se": 1.0,
+        "det_+P": 1.0,
+        "acc": 0.9263672779242739,
+        "macroF1": 0.547427841979202,
+        "N_Se": 0.9635348374553511,
+        "N_+P": 0.9704676897855093,
+        "S_Se": 0.1954273271638541,
+        "S_+P": 0.23997326203208555,
+        "V_Se": 0.924223602484472,
+        "V_+P": 0.7654320987654321,
+        "F_Se": 0.16752577319587628,
+        "F_+P": 0.1724137931034483
+      },
+      {
+        "model": "end-to-end 250 Hz clean",
+        "det_Se": 0.9796829739298358,
+        "det_+P": 0.9991588535789755,
+        "acc": 0.9241026483943211,
+        "macroF1": 0.5418560294157123,
+        "N_Se": 0.9619386700356035,
+        "N_+P": 0.9689719799162405,
+        "S_Se": 0.20066703724291274,
+        "S_+P": 0.24228187919463087,
+        "V_Se": 0.9034436191762323,
+        "V_+P": 0.7462353597322923,
+        "F_Se": 0.16533333333333333,
+        "F_+P": 0.16489361702127658
+      },
+      {
+        "model": "end-to-end 125 Hz device",
+        "det_Se": 0.9796628580624397,
+        "det_+P": 0.999158836321858,
+        "acc": 0.9242860078076844,
+        "macroF1": 0.5419968197899374,
+        "N_Se": 0.9621675012633804,
+        "N_+P": 0.9690008559465149,
+        "S_Se": 0.20066703724291274,
+        "S_+P": 0.2430976430976431,
+        "V_Se": 0.9031060094530723,
+        "V_+P": 0.7469980452387601,
+        "F_Se": 0.16533333333333333,
+        "F_+P": 0.16445623342175067
+      },
+      {
+        "model": "end-to-end 60 Hz (prototype)",
+        "det_Se": 0.9796226263276473,
+        "det_+P": 0.9991588018054985,
+        "acc": 0.9221886621874293,
+        "macroF1": 0.5386748604332682,
+        "N_Se": 0.9600073507454115,
+        "N_+P": 0.9674298016157782,
+        "S_Se": 0.19121734296831572,
+        "S_+P": 0.22736285525446134,
+        "V_Se": 0.9064821066846726,
+        "V_+P": 0.7495812395309883,
+        "F_Se": 0.16266666666666665,
+        "F_+P": 0.16266666666666665
+      },
+      {
+        "model": "end-to-end 250 Hz, SNR 18 dB",
+        "det_Se": 0.9795220469906663,
+        "det_+P": 0.9991587155022058,
+        "acc": 0.9223656090744698,
+        "macroF1": 0.5398660442032402,
+        "N_Se": 0.9597344726203602,
+        "N_+P": 0.9685891789141824,
+        "S_Se": 0.20622568093385213,
+        "S_+P": 0.2429600523903078,
+        "V_Se": 0.9041976980365606,
+        "V_+P": 0.743183082915971,
+        "F_Se": 0.16266666666666665,
+        "F_+P": 0.1506172839506173
+      },
+      {
+        "model": "end-to-end 250 Hz, SNR 12 dB",
+        "det_Se": 0.97950193112327,
+        "det_+P": 0.9991176953381484,
+        "acc": 0.918726753385529,
+        "macroF1": 0.5317139304972608,
+        "N_Se": 0.9558526277104006,
+        "N_+P": 0.9681727234656368,
+        "S_Se": 0.20657015590200445,
+        "S_+P": 0.23873873873873874,
+        "V_Se": 0.9015561569688768,
+        "V_+P": 0.7281420765027322,
+        "F_Se": 0.15466666666666667,
+        "F_+P": 0.12419700214132762
+      },
+      {
+        "model": "end-to-end 250 Hz, SNR 6 dB",
+        "det_Se": 0.9792605407145156,
+        "det_+P": 0.9991174780395699,
+        "acc": 0.9104026638712462,
+        "macroF1": 0.5168259770630473,
+        "N_Se": 0.946495439821728,
+        "N_+P": 0.9679768813288537,
+        "S_Se": 0.22370617696160267,
+        "S_+P": 0.2423146473779385,
+        "V_Se": 0.895593220338983,
+        "V_+P": 0.6818064516129032,
+        "F_Se": 0.128,
+        "F_+P": 0.08664259927797834
+      }
+    ],
+    "unknown_threshold_table_ds2": [
+      {
+        "threshold": 0.4,
+        "coverage": 0.9828901547937761,
+        "acc_kept": 0.9361649839234881,
+        "acc_flagged_unknown": 0.3635294117647059
+      },
+      {
+        "threshold": 0.5,
+        "coverage": 0.9441011292497836,
+        "acc_kept": 0.9546074794251844,
+        "acc_flagged_unknown": 0.44940583363341735
+      },
+      {
+        "threshold": 0.6,
+        "coverage": 0.8923891382676785,
+        "acc_kept": 0.9705185753276341,
+        "acc_flagged_unknown": 0.560231949120838
+      },
+      {
+        "threshold": 0.7,
+        "coverage": 0.808228829082711,
+        "acc_kept": 0.981495317792389,
+        "acc_flagged_unknown": 0.6940275007872363
+      },
+      {
+        "threshold": 0.8,
+        "coverage": 0.06856015620282212,
+        "acc_kept": 0.9445096887844979,
+        "acc_flagged_unknown": 0.9250318760400233
+      }
+    ]
+  },
+  "limitations": [
+    "Single-lead (MLII / lead II) only; not for ischaemia or 12-lead interpretation.",
+    "Supraventricular detection is weak when ectopic beats dominate the rhythm (MIT-BIH record 232); rhythm-level rules (pauses, bradycardia) must cover this case.",
+    "Fusion (F) beats are rarely detected on unseen patients.",
+    "Not validated on AD8232 recordings yet; research and demonstration use only, not a medical device."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "config": "resnet_tpl_cw0.5",
+  "model": "resnet_rr_tpl",
+  "cfg": {
+    "epochs": 15,
+    "batch": 512,
+    "lr": 0.001,
+    "wd": 0.001,
+    "patience": 10,
+    "cw_power": 0.5,
+    "label_smoothing": 0.05,
+    "lgbm_trees": 2000,
+    "min_epochs": 12,
+    "swa_epochs": 5
+  },
+  "class_bias": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "selection_rule": "highest pooled 5-fold patient-wise macro-F1 on DS1 (bias tuned nested)"
+}

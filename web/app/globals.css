@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* CardioSense clinical dark — teal primary, coral danger */
+    --background: 210 48% 7%;
+    --foreground: 210 25% 93%;
+    --card: 210 42% 11%;
+    --card-foreground: 210 25% 93%;
+    --popover: 210 42% 11%;
+    --popover-foreground: 210 25% 93%;
+    --primary: 174 100% 33%;
+    --primary-foreground: 210 48% 7%;
+    --secondary: 210 32% 16%;
+    --secondary-foreground: 210 20% 88%;
+    --muted: 210 28% 15%;
+    --muted-foreground: 210 14% 62%;
+    --accent: 210 30% 18%;
+    --accent-foreground: 210 25% 93%;
+    --destructive: 358 72% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 22% 22%;
+    --input: 210 22% 22%;
+    --ring: 174 100% 33%;
+    --radius: 0.55rem;
+    --chart-1: 174 100% 33%;
+    --chart-2: 358 72% 58%;
+    --chart-3: 36 85% 42%;
+    --chart-4: 262 45% 65%;
+    --chart-5: 210 20% 70%;
+    --warning: 36 85% 48%;
+    --orange: 24 90% 48%;
+    --fusion: 262 45% 65%;
+    --aime: 28 45% 90%;
+    --aime-foreground: 24 28% 18%;
+    --aime-border: 28 35% 78%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html,
+  body {
+    @apply min-h-full bg-background text-foreground antialiased;
+  }
+
+  body {
+    background-image:
+      radial-gradient(1000px 520px at 8% -12%, hsl(210 55% 18% / 0.9), transparent 55%),
+      radial-gradient(800px 400px at 100% 0%, hsl(174 60% 18% / 0.25), transparent 45%),
+      linear-gradient(165deg, hsl(210 50% 5%), hsl(210 48% 7%) 45%, hsl(210 45% 8%));
+    background-attachment: fixed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .instrument-grid {
+    background-image:
+      linear-gradient(hsl(174 100% 33% / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(174 100% 33% / 0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .motion-safe\:transition-all {
+    @apply transition-all;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .motion-safe\:transition-all {
+      transition: none !important;
+    }
+  }
+}

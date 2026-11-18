@@ -1,0 +1,10 @@
+backend/.venv/
+backend/.pip-cache/
+backend/**/__pycache__/
+cardiosense_beat_model/**/__pycache__/
+backend/*.db
+backend/.env
+node_modules/
+.next/
+*.pyc
+.DS_Store
