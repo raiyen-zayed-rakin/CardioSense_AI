@@ -20,7 +20,7 @@ Before coding UI, lock three answers (propose them if the brief is vague):
 | **Audience** | Clinicians (signed-in console) and home users (guest `/home`) |
 | **Primary job** | See the rhythm now and understand what changed — without diagnosing |
 
-Industry vernacular to draw from: bedside monitors, strip chart paper, calibrated grids, muted instrument chrome, high-contrast waveform, sparse status chrome. Materials: dark glass, soft teal phosphor, coral for danger — not neon cyberpunk, not wellness spa cream.
+Industry vernacular to draw from: bedside monitors, strip chart paper, calibrated grids, muted instrument chrome, high-contrast waveform, sparse status chrome. Materials: light frosted glass, cool clinical paper, ink teal trace, coral for danger — not neon cyberpunk, not wellness spa cream.
 
 Build with **real product content** (replay status, MRN, risk bands, alert tiers). Do not invent fake marketing stats in the first viewport of functional screens.
 
@@ -115,7 +115,7 @@ Quality floor (always):
 - Responsive to mobile
 - Visible keyboard focus
 - Reduced motion respected
-- Contrast usable in dark clinical theme
+- Contrast usable in light clinical theme
 - Meaning not by color alone (labels, patterns, text for N/S/V/F and risk tiers)
 - Touch targets ≥ 44×44 where interactive
 
@@ -127,12 +127,12 @@ Use this as the active brief unless the user overrides it:
 
 | Token / choice | Direction |
 |----------------|-----------|
-| Theme | Clinical dark (deep blue-teal void) |
-| Primary | Teal / phosphor (`--primary`) |
+| Theme | Clinical daylight (cool paper white, not cream spa) |
+| Primary | Ink teal (`--primary`) — readable on light |
 | Danger | Coral / red (`--destructive`) |
 | Warning / watch | Amber (`--warning`) |
 | Fusion / accent data | Violet (`--fusion`) sparingly |
-| Surfaces | Layered dark panels + subtle instrument grid — not flat black voids only |
+| Surfaces | Frosted light glass + soft instrument grid; ECG uses classic strip-paper grid |
 | Live console | ECG strip dominant; Rhythm / Risk / Alerts / Beats as tabs or rail |
 | Auth | Login may be atmospheric; app chrome stays instrument-quiet |
 | Guest home | Same instrument language as clinician monitor; banner for “no account / sensor later” |

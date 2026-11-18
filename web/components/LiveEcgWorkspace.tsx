@@ -314,17 +314,17 @@ export function LiveEcgWorkspace({
       {/* Instrument layout: waveform primary, insights as rail/tabs */}
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,22rem)] lg:items-start">
         <section
-          className="overflow-hidden rounded-sm border border-primary/25 bg-black/50 phosphor-frame"
+          className="overflow-hidden rounded-sm border border-border bg-white phosphor-frame"
           aria-label="ECG strip"
         >
-          <div className="flex items-center justify-between gap-3 border-b border-primary/15 px-4 py-3">
+          <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
             <div>
               <h2 className="text-base font-semibold">ECG strip</h2>
               <p className="text-sm text-muted-foreground">Waveform with beat markers</p>
             </div>
           </div>
           <div className="relative p-3 sm:p-4">
-            <div className="pointer-events-none absolute inset-3 z-10 scanline opacity-30 sm:inset-4" aria-hidden />
+            <div className="pointer-events-none absolute inset-3 z-10 scanline opacity-20 sm:inset-4" aria-hidden />
             <EcgCanvas samples={samples} fs={fs} beats={beats} />
             <div className="mt-4 space-y-2">
               <p className="text-sm text-muted-foreground">Beat ribbon · last ~72</p>
@@ -551,7 +551,7 @@ export function LiveEcgWorkspace({
 
 function EmptyInsight({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-sm border border-dashed border-primary/25 bg-white/[0.03] px-4 py-6 backdrop-blur-sm">
+    <div className="rounded-sm border border-dashed border-border bg-secondary/40 px-4 py-6">
       <p className="font-medium">{title}</p>
       <p className="mt-1 text-muted-foreground">{body}</p>
     </div>

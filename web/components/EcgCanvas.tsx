@@ -9,11 +9,11 @@ export type BeatMark = {
 };
 
 const LABEL_COLOR: Record<string, string> = {
-  N: "#00a896",
-  S: "#c9820a",
-  V: "#e0484d",
-  F: "#9b7bff",
-  Unknown: "#8aa0b5",
+  N: "#0d8a78",
+  S: "#b56e08",
+  V: "#d13a40",
+  F: "#7a5fd4",
+  Unknown: "#6b7c8f",
 };
 
 type Props = {
@@ -39,21 +39,22 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
     canvas.height = Math.floor(cssH * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    ctx.fillStyle = "#030a0c";
+    // Daylight strip paper
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, cssW, cssH);
 
     const pxPerSec = cssW / windowSec;
     ctx.lineWidth = 1;
     for (let x = 0; x <= cssW; x += pxPerSec / 5) {
       const major = Math.round(x / (pxPerSec / 5)) % 5 === 0;
-      ctx.strokeStyle = major ? "rgba(20,220,180,0.2)" : "rgba(20,220,180,0.07)";
+      ctx.strokeStyle = major ? "rgba(200, 72, 72, 0.28)" : "rgba(200, 72, 72, 0.12)";
       ctx.beginPath();
       ctx.moveTo(x + 0.5, 0);
       ctx.lineTo(x + 0.5, cssH);
       ctx.stroke();
     }
     for (let y = 0; y <= cssH; y += 16) {
-      ctx.strokeStyle = y % 80 === 0 ? "rgba(20,220,180,0.16)" : "rgba(20,220,180,0.06)";
+      ctx.strokeStyle = y % 80 === 0 ? "rgba(200, 72, 72, 0.22)" : "rgba(200, 72, 72, 0.1)";
       ctx.beginPath();
       ctx.moveTo(0, y + 0.5);
       ctx.lineTo(cssW, y + 0.5);
@@ -62,7 +63,7 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
 
     const n = Math.min(samples.length, Math.floor(windowSec * fs));
     if (n < 2) {
-      ctx.fillStyle = "rgba(120,160,150,0.75)";
+      ctx.fillStyle = "rgba(90, 110, 125, 0.85)";
       ctx.font = "500 13px 'IBM Plex Mono', monospace";
       ctx.fillText("Waiting for ECG frames…", 16, cssH / 2);
       return;
@@ -80,9 +81,9 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
     min -= pad;
     max += pad;
 
-    // Soft phosphor bloom then crisp trace
-    ctx.strokeStyle = "rgba(40,255,200,0.22)";
-    ctx.lineWidth = 4.5;
+    // Soft ink bloom then crisp teal trace
+    ctx.strokeStyle = "rgba(13, 138, 120, 0.18)";
+    ctx.lineWidth = 4;
     ctx.lineJoin = "round";
     ctx.beginPath();
     for (let i = 0; i < view.length; i++) {
@@ -93,8 +94,8 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
     }
     ctx.stroke();
 
-    ctx.strokeStyle = "#5dffc8";
-    ctx.lineWidth = 1.7;
+    ctx.strokeStyle = "#0d8a78";
+    ctx.lineWidth = 1.75;
     ctx.beginPath();
     for (let i = 0; i < view.length; i++) {
       const x = (i / (windowSec * fs)) * cssW;
@@ -109,7 +110,7 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
       const x = ((b.time_s - tStart) / windowSec) * cssW;
       const color = LABEL_COLOR[b.label] ?? LABEL_COLOR.Unknown;
       ctx.strokeStyle = color;
-      ctx.globalAlpha = 0.35;
+      ctx.globalAlpha = 0.28;
       ctx.beginPath();
       ctx.moveTo(x, 0);
       ctx.lineTo(x, cssH);
@@ -124,7 +125,7 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
   return (
     <canvas
       ref={canvasRef}
-      className="h-[280px] w-full rounded-sm border border-primary/25 bg-[#030a0c]"
+      className="h-[280px] w-full rounded-sm border border-border bg-white"
       style={{ width: "100%", height: 280 }}
     />
   );

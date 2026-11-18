@@ -245,7 +245,7 @@ export function DrAimeChathead() {
       <div
         className={cn(
           "fixed right-4 z-50 flex w-[min(100vw-2rem,22rem)] flex-col overflow-hidden rounded-2xl sm:right-8",
-          "glass-strong shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)]",
+          "glass-strong shadow-[0_20px_48px_-18px_rgba(30,50,70,0.28)]",
           "origin-bottom-right transition-all duration-300",
           open ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
         )}

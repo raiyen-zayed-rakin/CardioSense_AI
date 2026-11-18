@@ -39,7 +39,7 @@ export default function LoginPage() {
       {/* Full-bleed instrument atmosphere — brand is the hero */}
       <div className="pointer-events-none absolute inset-0 instrument-grid opacity-70" aria-hidden />
       <div
-        className="pointer-events-none absolute inset-x-0 top-[18%] h-40 scanline opacity-40"
+        className="pointer-events-none absolute inset-x-0 top-[18%] h-40 scanline opacity-25"
         aria-hidden
       />
       <svg
@@ -51,14 +51,14 @@ export default function LoginPage() {
         <path
           d="M0 80 H180 L200 80 L220 20 L240 140 L260 80 H420 L440 80 L455 50 L470 110 L485 80 H700 L720 80 L735 35 L750 125 L765 80 H980 L1000 80 L1015 55 L1030 105 L1045 80 H1200"
           fill="none"
-          stroke="hsl(168 100% 52% / 0.55)"
+          stroke="hsl(174 78% 28% / 0.55)"
           strokeWidth="2"
           vectorEffect="non-scaling-stroke"
         />
         <path
           d="M0 80 H180 L200 80 L220 20 L240 140 L260 80 H420 L440 80 L455 50 L470 110 L485 80 H700 L720 80 L735 35 L750 125 L765 80 H980 L1000 80 L1015 55 L1030 105 L1045 80 H1200"
           fill="none"
-          stroke="hsl(168 100% 52% / 0.18)"
+          stroke="hsl(174 78% 28% / 0.14)"
           strokeWidth="8"
           vectorEffect="non-scaling-stroke"
         />

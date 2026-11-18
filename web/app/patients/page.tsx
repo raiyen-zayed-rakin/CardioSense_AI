@@ -72,13 +72,13 @@ export default function PatientsPage() {
         </Alert>
       )}
 
-      <div className="glass divide-y divide-white/5 overflow-hidden rounded-sm">
+      <div className="glass divide-y divide-border/70 overflow-hidden rounded-sm">
         {patients.map((p) => {
           const record = RECORD_FOR_MRN[p.mrn] ?? "100";
           return (
             <article
               key={p.id}
-              className="flex flex-col gap-4 bg-transparent p-4 transition-colors hover:bg-white/[0.04] sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-4 bg-transparent p-4 transition-colors hover:bg-secondary/50 sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="flex min-w-0 items-start gap-3">
                 <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-md bg-primary/10 text-primary">

@@ -15,7 +15,7 @@ export function BeatRibbon({ beats }: { beats: BeatMark[] }) {
   const recent = beats.slice(-72);
   return (
     <div
-      className="flex h-10 w-full overflow-hidden rounded-md border border-border/80 bg-black/40"
+      className="flex h-10 w-full overflow-hidden rounded-md border border-border bg-secondary/60"
       role="img"
       aria-label={
         recent.length
