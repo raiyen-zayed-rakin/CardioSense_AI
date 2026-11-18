@@ -6,7 +6,6 @@ import { Activity, Home, LogOut, Menu, UserRound, Users, X } from "lucide-react"
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { DrAimeChathead } from "@/components/DrAimeChathead";
 
@@ -37,7 +36,7 @@ export function AppShell({
   const link = (href: string) =>
     cn(
       "inline-flex min-h-11 items-center gap-1.5 text-sm transition-colors hover:text-foreground",
-      pathname.startsWith(href) ? "text-foreground" : "text-muted-foreground",
+      pathname.startsWith(href) ? "text-primary" : "text-muted-foreground",
     );
 
   function goBrand(e: React.MouseEvent) {
@@ -64,27 +63,27 @@ export function AppShell({
   return (
     <div className="min-h-screen pb-20 sm:pb-0">
       {showNav && (
-        <header className="sticky top-0 z-40 border-b border-border/70 bg-background/80 backdrop-blur-xl">
+        <header className="glass-nav sticky top-0 z-40 border-b">
           <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-            <div className="flex min-w-0 items-center gap-4">
+            <div className="flex min-w-0 items-center gap-5">
               <Link
                 href={homeHref}
                 onClick={goBrand}
-                className="flex min-h-11 items-center gap-2.5 rounded-md outline-none transition hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex min-h-11 items-center gap-2.5 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                <span className="grid h-8 w-8 place-items-center rounded-md bg-primary/15 text-primary">
+                <span className="grid h-8 w-8 place-items-center rounded-sm border border-primary/35 bg-primary/10 text-primary">
                   <Activity className="h-4 w-4" aria-hidden />
                 </span>
                 <div className="leading-tight">
-                  <p className="text-sm font-semibold tracking-tight">CardioSense AI</p>
-                  <p className="hidden text-xs uppercase tracking-[0.14em] text-muted-foreground sm:block">
-                    {isGuest ? "Home monitoring" : "Monitoring console"}
+                  <p className="font-data text-sm font-medium tracking-tight text-foreground">CardioSense</p>
+                  <p className="hidden text-sm text-muted-foreground sm:block">
+                    {isGuest ? "Home monitoring" : "Console"}
                   </p>
                 </div>
               </Link>
-              <nav className="hidden items-center gap-3 sm:flex" aria-label="Primary">
+              <nav className="hidden items-center gap-1 sm:flex" aria-label="Primary">
                 {navLinks.map(({ href, label, icon: Icon }) => (
-                  <Link key={href} href={href} className={link(href)}>
+                  <Link key={href} href={href} className={cn(link(href), "rounded-sm px-2")}>
                     <Icon className="h-3.5 w-3.5" aria-hidden />
                     {label}
                   </Link>
@@ -93,14 +92,14 @@ export function AppShell({
             </div>
             <div className="flex items-center gap-2">
               {isGuest && (
-                <Badge variant="demo" className="hidden font-normal sm:inline-flex">
+                <Badge variant="demo" className="hidden rounded-sm font-data font-normal sm:inline-flex">
                   Guest
                 </Badge>
               )}
               {modelStatus && (
-                <Badge variant="outline" className="hidden max-w-[12rem] truncate font-normal lg:inline-flex">
+                <span className="hidden max-w-[14rem] truncate font-data text-sm text-muted-foreground lg:inline">
                   {modelStatus}
-                </Badge>
+                </span>
               )}
               {userName && (
                 <span className="hidden max-w-[8rem] truncate text-sm text-muted-foreground md:inline">
@@ -108,7 +107,12 @@ export function AppShell({
                 </span>
               )}
               {onLogout && (
-                <Button variant="ghost" size="sm" onClick={onLogout} className="hidden min-h-11 gap-1.5 sm:inline-flex">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onLogout}
+                  className="hidden min-h-11 gap-1.5 rounded-sm sm:inline-flex"
+                >
                   <LogOut className="h-3.5 w-3.5" aria-hidden />
                   {isGuest ? "Exit" : "Log out"}
                 </Button>
@@ -117,7 +121,7 @@ export function AppShell({
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="min-h-11 min-w-11 p-0 sm:hidden"
+                className="min-h-11 min-w-11 rounded-sm p-0 sm:hidden"
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={menuOpen}
                 onClick={() => setMenuOpen((v) => !v)}
@@ -127,13 +131,13 @@ export function AppShell({
             </div>
           </div>
           {menuOpen && (
-            <div className="border-t border-border/60 bg-background/95 px-4 py-3 sm:hidden">
+            <div className="glass border-0 border-t border-border/40 px-4 py-3 sm:hidden">
               <nav className="flex flex-col gap-1" aria-label="Mobile">
                 {navLinks.map(({ href, label, icon: Icon }) => (
                   <Link
                     key={href}
                     href={href}
-                    className={cn(link(href), "rounded-md px-3")}
+                    className={cn(link(href), "rounded-sm px-3")}
                     onClick={() => setMenuOpen(false)}
                   >
                     <Icon className="h-4 w-4" aria-hidden />
@@ -143,7 +147,7 @@ export function AppShell({
                 {onLogout && (
                   <button
                     type="button"
-                    className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-3 text-left text-sm text-muted-foreground"
+                    className="inline-flex min-h-11 items-center gap-1.5 rounded-sm px-3 text-left text-sm text-muted-foreground"
                     onClick={() => {
                       setMenuOpen(false);
                       onLogout();
@@ -159,16 +163,15 @@ export function AppShell({
         </header>
       )}
 
-      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">{children}</div>
-      <Separator className="opacity-40" />
-      <footer className="mx-auto max-w-6xl px-4 py-4 text-sm text-muted-foreground sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-7">{children}</div>
+
+      <footer className="mx-auto max-w-6xl border-t border-border/50 px-4 py-4 font-data text-sm text-muted-foreground sm:px-6">
         Research demo · not a medical device · decision support only
       </footer>
 
-      {/* Mobile bottom nav — primary destinations only */}
       {showNav && (
         <nav
-          className="fixed inset-x-0 bottom-0 z-40 border-t border-border/70 bg-background/95 backdrop-blur-xl sm:hidden"
+          className="glass-nav fixed inset-x-0 bottom-0 z-40 border-t sm:hidden"
           aria-label="Bottom"
         >
           <div className="mx-auto flex max-w-6xl items-stretch justify-around px-2 pb-[env(safe-area-inset-bottom)]">
@@ -177,7 +180,7 @@ export function AppShell({
                 key={href}
                 href={href}
                 className={cn(
-                  "flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-xs",
+                  "flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-sm",
                   pathname.startsWith(href) ? "text-primary" : "text-muted-foreground",
                 )}
               >

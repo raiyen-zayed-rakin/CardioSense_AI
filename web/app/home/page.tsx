@@ -80,14 +80,14 @@ function HomeContent() {
         router.replace("/login");
       }}
     >
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border/70 bg-secondary/25 px-4 py-3">
+      <div className="glass mb-4 flex flex-wrap items-center justify-between gap-3 rounded-sm px-4 py-3">
         <div>
           <p className="text-sm font-medium">Home monitoring · no account</p>
           <p className="mt-0.5 text-sm text-muted-foreground">
-            Replay demo now · AD8232 pairing later · not a medical device
+            Replay demo now. Sensor pairing later. Not a medical device.
           </p>
         </div>
-        <Button asChild variant="outline" className="min-h-11">
+        <Button asChild variant="outline" className="min-h-11 rounded-sm">
           <Link href="/register">Create account</Link>
         </Button>
       </div>

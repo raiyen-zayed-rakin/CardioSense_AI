@@ -10,7 +10,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-source)", "Segoe UI", "sans-serif"],
+        sans: ["var(--font-plex-sans)", "Segoe UI", "sans-serif"],
+        mono: ["var(--font-plex-mono)", "ui-monospace", "monospace"],
+        data: ["var(--font-plex-mono)", "ui-monospace", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",

@@ -52,10 +52,9 @@ export default function PatientsPage() {
     <AppShell userName={user?.full_name} modelStatus={health} onLogout={logout}>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm uppercase tracking-[0.16em] text-primary">Triage</p>
-          <h1 className="mt-1 text-3xl font-semibold tracking-tight">Patients</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Patients</h1>
           <p className="mt-2 max-w-xl text-sm text-muted-foreground">
-            Risk-sorted queue. Open a console to run MIT-BIH replay with live labels and alerts.
+            Risk-sorted queue. Open a console for live labels, rhythm, and alerts.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -73,13 +72,13 @@ export default function PatientsPage() {
         </Alert>
       )}
 
-      <div className="divide-y divide-border/70 overflow-hidden rounded-xl border border-border/70">
+      <div className="glass divide-y divide-white/5 overflow-hidden rounded-sm">
         {patients.map((p) => {
           const record = RECORD_FOR_MRN[p.mrn] ?? "100";
           return (
             <article
               key={p.id}
-              className="flex flex-col gap-4 bg-card/30 p-4 transition-colors hover:bg-secondary/30 sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-4 bg-transparent p-4 transition-colors hover:bg-white/[0.04] sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="flex min-w-0 items-start gap-3">
                 <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-md bg-primary/10 text-primary">

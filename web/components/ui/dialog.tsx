@@ -67,7 +67,7 @@ export function DialogContent({
         role="dialog"
         aria-modal
         className={cn(
-          "relative z-10 w-full max-w-lg rounded-lg border border-border bg-card p-6 shadow-xl",
+          "glass-strong relative z-10 w-full max-w-lg rounded-lg p-6",
           className,
         )}
       >

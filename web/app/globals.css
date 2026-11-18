@@ -4,38 +4,39 @@
 
 @layer base {
   :root {
-    /* CardioSense clinical dark — teal primary, coral danger */
-    --background: 210 48% 7%;
-    --foreground: 210 25% 93%;
-    --card: 210 42% 11%;
-    --card-foreground: 210 25% 93%;
-    --popover: 210 42% 11%;
-    --popover-foreground: 210 25% 93%;
-    --primary: 174 100% 33%;
-    --primary-foreground: 210 48% 7%;
-    --secondary: 210 32% 16%;
-    --secondary-foreground: 210 20% 88%;
-    --muted: 210 28% 15%;
-    --muted-foreground: 210 14% 62%;
-    --accent: 210 30% 18%;
-    --accent-foreground: 210 25% 93%;
-    --destructive: 358 72% 58%;
+    /* Phosphor instrument — CRT void, teal glow, coral alarm */
+    --background: 200 55% 5%;
+    --foreground: 180 18% 92%;
+    --card: 200 40% 8%;
+    --card-foreground: 180 18% 92%;
+    --popover: 200 40% 8%;
+    --popover-foreground: 180 18% 92%;
+    --primary: 168 92% 38%;
+    --primary-foreground: 200 55% 5%;
+    --secondary: 200 28% 12%;
+    --secondary-foreground: 180 14% 86%;
+    --muted: 200 24% 11%;
+    --muted-foreground: 195 12% 58%;
+    --accent: 200 26% 14%;
+    --accent-foreground: 180 18% 92%;
+    --destructive: 356 78% 56%;
     --destructive-foreground: 0 0% 100%;
-    --border: 210 22% 22%;
-    --input: 210 22% 22%;
-    --ring: 174 100% 33%;
-    --radius: 0.55rem;
-    --chart-1: 174 100% 33%;
-    --chart-2: 358 72% 58%;
-    --chart-3: 36 85% 42%;
-    --chart-4: 262 45% 65%;
-    --chart-5: 210 20% 70%;
-    --warning: 36 85% 48%;
-    --orange: 24 90% 48%;
-    --fusion: 262 45% 65%;
-    --aime: 28 45% 90%;
-    --aime-foreground: 24 28% 18%;
-    --aime-border: 28 35% 78%;
+    --border: 198 22% 18%;
+    --input: 198 22% 18%;
+    --ring: 168 92% 38%;
+    --radius: 0.35rem;
+    --chart-1: 168 92% 38%;
+    --chart-2: 356 78% 56%;
+    --chart-3: 38 90% 48%;
+    --chart-4: 262 42% 62%;
+    --chart-5: 195 12% 68%;
+    --warning: 38 90% 48%;
+    --orange: 24 92% 50%;
+    --fusion: 262 42% 62%;
+    --aime: 28 42% 88%;
+    --aime-foreground: 24 28% 16%;
+    --aime-border: 28 32% 72%;
+    --phosphor: 168 100% 52%;
   }
 
   * {
@@ -48,10 +49,11 @@
   }
 
   body {
+    background-color: hsl(var(--background));
     background-image:
-      radial-gradient(1000px 520px at 8% -12%, hsl(210 55% 18% / 0.9), transparent 55%),
-      radial-gradient(800px 400px at 100% 0%, hsl(174 60% 18% / 0.25), transparent 45%),
-      linear-gradient(165deg, hsl(210 50% 5%), hsl(210 48% 7%) 45%, hsl(210 45% 8%));
+      radial-gradient(900px 480px at 12% -8%, hsl(168 60% 14% / 0.35), transparent 55%),
+      radial-gradient(700px 420px at 100% 0%, hsl(200 50% 12% / 0.5), transparent 50%),
+      linear-gradient(180deg, hsl(200 55% 4%), hsl(200 50% 6%) 40%, hsl(200 48% 5%));
     background-attachment: fixed;
   }
 
@@ -70,9 +72,70 @@
 @layer utilities {
   .instrument-grid {
     background-image:
-      linear-gradient(hsl(174 100% 33% / 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(174 100% 33% / 0.06) 1px, transparent 1px);
-    background-size: 24px 24px;
+      linear-gradient(hsl(168 80% 40% / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(168 80% 40% / 0.07) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* Subtle dark glass — instrument chrome, not frosted SaaS */
+  .glass {
+    background: linear-gradient(
+      165deg,
+      hsl(200 35% 14% / 0.45) 0%,
+      hsl(200 40% 8% / 0.55) 100%
+    );
+    border: 1px solid hsl(198 22% 28% / 0.45);
+    backdrop-filter: blur(14px) saturate(1.15);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    box-shadow:
+      inset 0 1px 0 0 hsl(180 40% 90% / 0.08),
+      inset 0 0 0 1px hsl(168 80% 40% / 0.06),
+      0 8px 28px -12px hsl(200 60% 2% / 0.55);
+  }
+
+  .glass-strong {
+    background: linear-gradient(
+      165deg,
+      hsl(200 38% 16% / 0.58) 0%,
+      hsl(200 42% 9% / 0.72) 100%
+    );
+    border: 1px solid hsl(198 24% 32% / 0.5);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    box-shadow:
+      inset 0 1px 0 0 hsl(180 50% 92% / 0.1),
+      inset 0 0 0 1px hsl(168 80% 40% / 0.1),
+      0 12px 36px -14px hsl(200 60% 2% / 0.65);
+  }
+
+  .glass-nav {
+    background: hsl(200 50% 6% / 0.72);
+    border-color: hsl(168 80% 40% / 0.22);
+    backdrop-filter: blur(16px) saturate(1.15);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+    box-shadow: inset 0 -1px 0 0 hsl(180 40% 90% / 0.04);
+  }
+
+  .phosphor-frame {
+    box-shadow:
+      inset 0 0 0 1px hsl(168 80% 40% / 0.22),
+      inset 0 0 40px hsl(168 90% 30% / 0.08),
+      0 0 24px hsl(168 90% 35% / 0.12);
+  }
+
+  .scanline {
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(200 40% 4% / 0.12) 2px,
+      hsl(200 40% 4% / 0.12) 3px
+    );
+    pointer-events: none;
+  }
+
+  .font-data {
+    font-family: var(--font-plex-mono), ui-monospace, monospace;
   }
 
   .motion-safe\:transition-all {

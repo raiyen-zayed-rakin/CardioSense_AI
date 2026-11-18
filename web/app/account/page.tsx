@@ -40,8 +40,7 @@ export default function AccountPage() {
       }}
     >
       <div className="mb-6">
-        <p className="text-sm uppercase tracking-[0.16em] text-primary">Account</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight">Your profile</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Your profile</h1>
         <p className="mt-2 text-sm text-muted-foreground">Signed-in clinician details and model status.</p>
       </div>
 
@@ -52,7 +51,7 @@ export default function AccountPage() {
       )}
 
       <div className="grid gap-4 md:grid-cols-2">
-        <section className="rounded-xl border border-border/70 bg-card/30 p-5">
+        <section className="glass rounded-sm p-5">
           <h2 className="text-base font-semibold">Profile</h2>
           <p className="mt-1 text-sm text-muted-foreground">Who is signed in</p>
           <div className="mt-4 space-y-3 text-sm">
@@ -73,7 +72,7 @@ export default function AccountPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-border/70 bg-card/30 p-5">
+        <section className="glass rounded-sm p-5">
           <h2 className="text-base font-semibold">System status</h2>
           <p className="mt-1 text-sm text-muted-foreground">Inference readiness</p>
           <div className="mt-4 space-y-3 text-sm">

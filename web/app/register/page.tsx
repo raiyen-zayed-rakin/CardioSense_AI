@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Activity, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { api, saveTokens } from "@/lib/api";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -43,37 +42,39 @@ export default function RegisterPage() {
       saveTokens(tokens);
       router.push("/patients");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed");
+      setError(err instanceof Error ? err.message : "Could not create account — try a different email.");
     } finally {
       setBusy(false);
     }
   }
 
   return (
-    <main className="grid min-h-screen place-items-center px-6 py-12">
-      <Card className="w-full max-w-md border-border/70 shadow-xl shadow-black/20">
-        <CardHeader className="space-y-2">
-          <div className="flex items-center gap-2">
-            <Activity className="h-5 w-5 text-primary" />
-            <span className="font-semibold">CardioSense AI</span>
-          </div>
-          <CardTitle className="text-2xl">Create account</CardTitle>
-          <CardDescription>
-            Create a clinician account to save patients and sessions. Prefer guest mode? Use Try without
-            signing in on the login page.
-          </CardDescription>
-        </CardHeader>
-        <form onSubmit={onSubmit}>
-          <CardContent className="space-y-4">
+    <main className="relative min-h-screen overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 instrument-grid opacity-60" aria-hidden />
+      <div className="relative mx-auto flex min-h-screen max-w-lg flex-col justify-center px-6 py-12">
+        <p className="font-data text-sm text-primary">CardioSense AI</p>
+        <section className="glass-strong mt-4 rounded-sm p-6 phosphor-frame">
+          <h1 className="text-2xl font-semibold tracking-tight">Create account</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Save patients and sessions. Or use guest mode from the sign-in page — no account needed.
+          </p>
+          <form onSubmit={onSubmit} className="mt-6 space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Full name</Label>
-              <Input id="name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+              <Input
+                id="name"
+                className="min-h-11 rounded-sm"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
+                className="min-h-11 rounded-sm"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -85,6 +86,7 @@ export default function RegisterPage() {
               <Input
                 id="password"
                 type="password"
+                className="min-h-11 rounded-sm"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -95,7 +97,7 @@ export default function RegisterPage() {
             <div className="space-y-2">
               <Label>Role</Label>
               <Select value={role} onValueChange={setRole}>
-                <SelectTrigger>
+                <SelectTrigger className="min-h-11 rounded-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -112,10 +114,8 @@ export default function RegisterPage() {
                 <AlertDescription className="break-all">{error}</AlertDescription>
               </Alert>
             )}
-          </CardContent>
-          <CardFooter className="flex flex-col gap-3">
-            <Button type="submit" className="w-full" disabled={busy}>
-              {busy && <Loader2 className="animate-spin" />}
+            <Button type="submit" className="min-h-11 w-full rounded-sm" disabled={busy}>
+              {busy && <Loader2 className="animate-spin" aria-hidden />}
               {busy ? "Creating…" : "Create account"}
             </Button>
             <p className="text-center text-sm text-muted-foreground">
@@ -124,9 +124,9 @@ export default function RegisterPage() {
                 Sign in
               </Link>
             </p>
-          </CardFooter>
-        </form>
-      </Card>
+          </form>
+        </section>
+      </div>
     </main>
   );
 }

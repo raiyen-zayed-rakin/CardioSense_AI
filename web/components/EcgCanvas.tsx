@@ -39,21 +39,21 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
     canvas.height = Math.floor(cssH * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    ctx.fillStyle = "#050c14";
+    ctx.fillStyle = "#030a0c";
     ctx.fillRect(0, 0, cssW, cssH);
 
     const pxPerSec = cssW / windowSec;
     ctx.lineWidth = 1;
     for (let x = 0; x <= cssW; x += pxPerSec / 5) {
       const major = Math.round(x / (pxPerSec / 5)) % 5 === 0;
-      ctx.strokeStyle = major ? "rgba(0,168,150,0.18)" : "rgba(0,168,150,0.07)";
+      ctx.strokeStyle = major ? "rgba(20,220,180,0.2)" : "rgba(20,220,180,0.07)";
       ctx.beginPath();
       ctx.moveTo(x + 0.5, 0);
       ctx.lineTo(x + 0.5, cssH);
       ctx.stroke();
     }
     for (let y = 0; y <= cssH; y += 16) {
-      ctx.strokeStyle = y % 80 === 0 ? "rgba(0,168,150,0.16)" : "rgba(0,168,150,0.06)";
+      ctx.strokeStyle = y % 80 === 0 ? "rgba(20,220,180,0.16)" : "rgba(20,220,180,0.06)";
       ctx.beginPath();
       ctx.moveTo(0, y + 0.5);
       ctx.lineTo(cssW, y + 0.5);
@@ -62,8 +62,8 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
 
     const n = Math.min(samples.length, Math.floor(windowSec * fs));
     if (n < 2) {
-      ctx.fillStyle = "rgba(138,160,181,0.7)";
-      ctx.font = "13px sans-serif";
+      ctx.fillStyle = "rgba(120,160,150,0.75)";
+      ctx.font = "500 13px 'IBM Plex Mono', monospace";
       ctx.fillText("Waiting for ECG frames…", 16, cssH / 2);
       return;
     }
@@ -80,9 +80,21 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
     min -= pad;
     max += pad;
 
-    ctx.strokeStyle = "#d7e6f2";
-    ctx.lineWidth = 1.6;
+    // Soft phosphor bloom then crisp trace
+    ctx.strokeStyle = "rgba(40,255,200,0.22)";
+    ctx.lineWidth = 4.5;
     ctx.lineJoin = "round";
+    ctx.beginPath();
+    for (let i = 0; i < view.length; i++) {
+      const x = (i / (windowSec * fs)) * cssW;
+      const y = ((max - view[i]) / (max - min)) * (cssH - 20) + 10;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = "#5dffc8";
+    ctx.lineWidth = 1.7;
     ctx.beginPath();
     for (let i = 0; i < view.length; i++) {
       const x = (i / (windowSec * fs)) * cssW;
@@ -104,7 +116,7 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
       ctx.stroke();
       ctx.globalAlpha = 1;
       ctx.fillStyle = color;
-      ctx.font = "600 11px sans-serif";
+      ctx.font = "600 11px 'IBM Plex Mono', monospace";
       ctx.fillText(b.label, x + 4, 16);
     }
   }, [samples, fs, beats, windowSec]);
@@ -112,8 +124,8 @@ export function EcgCanvas({ samples, fs, beats, windowSec = 6 }: Props) {
   return (
     <canvas
       ref={canvasRef}
-      className="h-[260px] w-full rounded-md border border-border/80 bg-[#050c14]"
-      style={{ width: "100%", height: 260 }}
+      className="h-[280px] w-full rounded-sm border border-primary/25 bg-[#030a0c]"
+      style={{ width: "100%", height: 280 }}
     />
   );
 }

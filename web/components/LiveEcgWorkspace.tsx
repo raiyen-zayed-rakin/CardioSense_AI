@@ -234,9 +234,8 @@ export function LiveEcgWorkspace({
         </div>
       </header>
 
-      {/* Compact control strip — not a card stack */}
       <div
-        className="flex flex-wrap items-end gap-3 rounded-lg border border-border/70 bg-secondary/20 px-3 py-3"
+        className="glass flex flex-wrap items-end gap-3 rounded-sm px-3 py-3"
         role="toolbar"
         aria-label="Replay controls"
       >
@@ -250,7 +249,7 @@ export function LiveEcgWorkspace({
               if (recordPath) router.replace(recordPath(v));
             }}
           >
-            <SelectTrigger className="min-h-11 w-[110px]">
+            <SelectTrigger className="min-h-11 w-[110px] rounded-sm font-data">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -265,7 +264,7 @@ export function LiveEcgWorkspace({
         <div className="space-y-1.5">
           <Label className="text-sm text-muted-foreground">Speed</Label>
           <Select value={speed} onValueChange={setSpeed} disabled={busy}>
-            <SelectTrigger className="min-h-11 w-[100px]">
+            <SelectTrigger className="min-h-11 w-[100px] rounded-sm font-data">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -283,14 +282,14 @@ export function LiveEcgWorkspace({
             Ground truth
           </Label>
         </div>
-        <Button onClick={startReplay} disabled={busy} className="min-h-11 min-w-[140px]">
+        <Button onClick={startReplay} disabled={busy} className="min-h-11 min-w-[140px] rounded-sm">
           {busy ? <Loader2 className="animate-spin" aria-hidden /> : <Play className="h-4 w-4" aria-hidden />}
           {busy ? "Running…" : "Start replay"}
         </Button>
         <Button
           type="button"
           variant="outline"
-          className="min-h-11 min-w-[100px]"
+          className="min-h-11 min-w-[100px] rounded-sm"
           disabled={!live && !busy}
           onClick={() => {
             stopWs();
@@ -301,7 +300,7 @@ export function LiveEcgWorkspace({
           <Square className="h-3.5 w-3.5" aria-hidden />
           Stop
         </Button>
-        <p className="ml-auto self-center text-sm text-muted-foreground" aria-live="polite">
+        <p className="ml-auto self-center font-data text-sm text-muted-foreground" aria-live="polite">
           {status}
         </p>
       </div>
@@ -315,16 +314,17 @@ export function LiveEcgWorkspace({
       {/* Instrument layout: waveform primary, insights as rail/tabs */}
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,22rem)] lg:items-start">
         <section
-          className="overflow-hidden rounded-xl border border-border/80 bg-black/35 instrument-grid"
+          className="overflow-hidden rounded-sm border border-primary/25 bg-black/50 phosphor-frame"
           aria-label="ECG strip"
         >
-          <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
+          <div className="flex items-center justify-between gap-3 border-b border-primary/15 px-4 py-3">
             <div>
               <h2 className="text-base font-semibold">ECG strip</h2>
               <p className="text-sm text-muted-foreground">Waveform with beat markers</p>
             </div>
           </div>
-          <div className="p-3 sm:p-4">
+          <div className="relative p-3 sm:p-4">
+            <div className="pointer-events-none absolute inset-3 z-10 scanline opacity-30 sm:inset-4" aria-hidden />
             <EcgCanvas samples={samples} fs={fs} beats={beats} />
             <div className="mt-4 space-y-2">
               <p className="text-sm text-muted-foreground">Beat ribbon · last ~72</p>
@@ -352,9 +352,9 @@ export function LiveEcgWorkspace({
           </div>
         </section>
 
-        <aside className="rounded-xl border border-border/80 bg-card/40" aria-label="Live insights">
+        <aside className="glass overflow-hidden rounded-sm" aria-label="Live insights">
           <div
-            className="flex gap-1 overflow-x-auto border-b border-border/60 p-2"
+            className="flex gap-1 overflow-x-auto border-b border-white/5 p-1.5"
             role="tablist"
             aria-label="Insight panels"
           >
@@ -366,9 +366,9 @@ export function LiveEcgWorkspace({
                 aria-selected={tab === t.id}
                 onClick={() => setTab(t.id)}
                 className={cn(
-                  "inline-flex min-h-11 min-w-[4.5rem] flex-1 items-center justify-center gap-1.5 rounded-md px-3 text-sm transition",
+                  "inline-flex min-h-11 min-w-[4.5rem] flex-1 items-center justify-center gap-1.5 rounded-sm px-3 text-sm transition",
                   tab === t.id
-                    ? "bg-primary/15 text-foreground"
+                    ? "bg-primary/15 text-primary"
                     : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
                 )}
               >
@@ -388,14 +388,14 @@ export function LiveEcgWorkspace({
                     <div className="flex items-end justify-between gap-3">
                       <div>
                         <p className="text-muted-foreground">Heart rate</p>
-                        <p className="text-3xl font-semibold tabular-nums">
+                        <p className="font-data text-3xl font-semibold tabular-nums text-primary">
                           {rhythm.hr_bpm != null ? Math.round(rhythm.hr_bpm) : "—"}
                           <span className="ml-1 text-sm font-normal text-muted-foreground">bpm</span>
                         </p>
                       </div>
                       <div className="text-right">
                         <p className="text-muted-foreground">Signal quality</p>
-                        <p className="text-lg font-semibold tabular-nums">{Math.round(rhythm.sqi * 100)}%</p>
+                        <p className="font-data text-lg font-semibold tabular-nums">{Math.round(rhythm.sqi * 100)}%</p>
                       </div>
                     </div>
                     <p className="text-muted-foreground">
@@ -424,10 +424,15 @@ export function LiveEcgWorkspace({
                 {risk ? (
                   <>
                     <div className="flex items-center justify-between gap-3">
-                      <p className="text-3xl font-semibold tabular-nums" aria-label={`Risk score ${risk.score}`}>
+                      <p
+                        className="font-data text-3xl font-semibold tabular-nums"
+                        aria-label={`Risk score ${risk.score}`}
+                      >
                         {risk.score}
                       </p>
-                      <Badge variant={riskVariant(risk.band)}>{riskLabel(risk.band)}</Badge>
+                      <Badge variant={riskVariant(risk.band)} className="rounded-sm">
+                        {riskLabel(risk.band)}
+                      </Badge>
                     </div>
                     <div className="h-2.5 overflow-hidden rounded-full bg-secondary" aria-hidden>
                       <div
@@ -453,7 +458,7 @@ export function LiveEcgWorkspace({
             {tab === "alerts" && (
               <ul className="space-y-3 text-sm">
                 {alerts.map((a, i) => (
-                  <li key={`${a.rule_id}-${a.t}-${i}`} className="rounded-lg border border-border/70 p-3">
+                  <li key={`${a.rule_id}-${a.t}-${i}`} className="glass rounded-sm p-3">
                     <div className="flex items-center justify-between gap-2">
                       <Badge
                         variant={
@@ -546,7 +551,7 @@ export function LiveEcgWorkspace({
 
 function EmptyInsight({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-lg border border-dashed border-border/80 bg-secondary/20 px-4 py-6">
+    <div className="rounded-sm border border-dashed border-primary/25 bg-white/[0.03] px-4 py-6 backdrop-blur-sm">
       <p className="font-medium">{title}</p>
       <p className="mt-1 text-muted-foreground">{body}</p>
     </div>
