@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
+import { AmbientBackdrop } from "@/components/AmbientBackdrop";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,35 +37,9 @@ export default function LoginPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Full-bleed instrument atmosphere — brand is the hero */}
-      <div className="pointer-events-none absolute inset-0 instrument-grid opacity-70" aria-hidden />
-      <div
-        className="pointer-events-none absolute inset-x-0 top-[18%] h-40 scanline opacity-40"
-        aria-hidden
-      />
-      <svg
-        className="pointer-events-none absolute inset-x-0 top-[22%] h-36 w-full opacity-80"
-        viewBox="0 0 1200 160"
-        preserveAspectRatio="none"
-        aria-hidden
-      >
-        <path
-          d="M0 80 H180 L200 80 L220 20 L240 140 L260 80 H420 L440 80 L455 50 L470 110 L485 80 H700 L720 80 L735 35 L750 125 L765 80 H980 L1000 80 L1015 55 L1030 105 L1045 80 H1200"
-          fill="none"
-          stroke="hsl(168 100% 52% / 0.55)"
-          strokeWidth="2"
-          vectorEffect="non-scaling-stroke"
-        />
-        <path
-          d="M0 80 H180 L200 80 L220 20 L240 140 L260 80 H420 L440 80 L455 50 L470 110 L485 80 H700 L720 80 L735 35 L750 125 L765 80 H980 L1000 80 L1015 55 L1030 105 L1045 80 H1200"
-          fill="none"
-          stroke="hsl(168 100% 52% / 0.18)"
-          strokeWidth="8"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
+      <AmbientBackdrop variant="auth" />
 
-      <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-between px-6 py-10 lg:px-10">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-between px-6 py-10 lg:px-10">
         <header className="max-w-2xl">
           <p className="font-data text-sm text-primary">CardioSense AI</p>
           <h1 className="mt-3 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl sm:leading-[1.1]">

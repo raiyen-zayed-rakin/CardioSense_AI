@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { AmbientBackdrop } from "@/components/AmbientBackdrop";
 
 const ROLES = [
   { value: "clinician", label: "Clinician" },
@@ -50,8 +51,8 @@ export default function RegisterPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 instrument-grid opacity-60" aria-hidden />
-      <div className="relative mx-auto flex min-h-screen max-w-lg flex-col justify-center px-6 py-12">
+      <AmbientBackdrop variant="auth" />
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-lg flex-col justify-center px-6 py-12">
         <p className="font-data text-sm text-primary">CardioSense AI</p>
         <section className="glass-strong mt-4 rounded-sm p-6 phosphor-frame">
           <h1 className="text-2xl font-semibold tracking-tight">Create account</h1>

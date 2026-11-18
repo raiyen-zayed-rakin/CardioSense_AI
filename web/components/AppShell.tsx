@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { DrAimeChathead } from "@/components/DrAimeChathead";
+import { AmbientBackdrop } from "@/components/AmbientBackdrop";
 
 type Props = {
   children: React.ReactNode;
@@ -61,7 +62,8 @@ export function AppShell({
       ];
 
   return (
-    <div className="min-h-screen pb-20 sm:pb-0">
+    <div className="relative isolate min-h-screen pb-20 sm:pb-0">
+      <AmbientBackdrop variant="app" />
       {showNav && (
         <header className="glass-nav sticky top-0 z-40 border-b">
           <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
@@ -163,9 +165,9 @@ export function AppShell({
         </header>
       )}
 
-      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-7">{children}</div>
+      <div className="relative z-10 mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-7">{children}</div>
 
-      <footer className="mx-auto max-w-6xl border-t border-border/50 px-4 py-4 font-data text-sm text-muted-foreground sm:px-6">
+      <footer className="relative z-10 mx-auto max-w-6xl border-t border-border/50 px-4 py-4 font-data text-sm text-muted-foreground sm:px-6">
         Research demo · not a medical device · decision support only
       </footer>
 
